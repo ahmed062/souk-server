@@ -13,7 +13,7 @@ const protect = asyncHandler(async (req, res, next) => {
 			token = req.headers.authorization.split(' ')[1];
 			const decoded = await jwt.verify(token, process.env.JWT_SECRET);
 
-<<<<<<< HEAD
+
 			req.user = await User.findById(decoded.id).select('-password');
 			next();
 		} catch (error) {
@@ -25,7 +25,7 @@ const protect = asyncHandler(async (req, res, next) => {
 		res.status(401);
 		throw new Error('Not authorized, no token');
 	}
-=======
+
             req.user = await User.findById(decoded.id).select('-password');
             next();
         } catch (error) {
@@ -33,12 +33,13 @@ const protect = asyncHandler(async (req, res, next) => {
             throw new Error('Not authorized, token failed');
         }
 
-        if (!token) {
+     
+    }
+       if (token==null) {
             res.status(401);
             throw new Error('Not authorized, no token');
         }
-    }
->>>>>>> 441c0ee72f858fdb362aabf0548cdcd6db9cb25a
+
 });
 
 const admin = (req, res, next) => {
