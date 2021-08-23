@@ -8,55 +8,54 @@ const wishlistSchema = new mongoose.Schema({
 });
 
 const usersSchema = mongoose.Schema(
-	{
-		firstName: {
-			type: String,
-			required: true,
-		},
-		lastName: {
-			type: String,
-			required: true,
-		},
-		email: {
-			type: String,
-			required: true,
-			match: '/^(([^<>()[]\\.,;:s@"]+(.[^<>()[]\\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/',
-		},
-		password: {
-			type: String,
-			required: true,
-			minLength: 6,
-		},
-		phone: {
-			type: String,
-			required: true,
-		},
-		country: {
-			type: String,
-			required: true,
-		},
-		address1: {
-			type: String,
-		},
-		address2: {
-			type: String,
-		},
-		verificationCode: {
-			type: String,
-		},
-		role: {
-			type: String,
-			enum: ['admin', 'user', 'seller'],
-			default: 'user',
-		},
-		avatar: {
-			type: Buffer,
-		},
-		wishlist: [wishlistSchema],
-	},
-	{
-		timestamps: true,
-	}
+    {
+        firstName: {
+            type: String,
+            required: true,
+        },
+        lastName: {
+            type: String,
+            required: true,
+        },
+        email: {
+            type: String,
+            required: true,
+        },
+        password: {
+            type: String,
+            required: true,
+            minLength: 6,
+        },
+        phone: {
+            type: String,
+        },
+        country: {
+            type: String,
+            required: true,
+        },
+        address1: {
+            type: String,
+        },
+        address2: {
+            type: String,
+        },
+        verificationCode: {
+            type: String,
+        },
+        role: {
+            type: String,
+            enum: ['admin', 'user', 'seller'],
+            default: 'user',
+        },
+        avatar: {
+            type: Buffer,
+        },
+        wishlist: [wishlistSchema],
+    },
+    {
+        timestamps: true,
+    }
+	
 );
 
 usersSchema.methods.comparePassword = async function (enteredPassword) {
