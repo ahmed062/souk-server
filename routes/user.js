@@ -5,7 +5,7 @@ import {
     getUserById,
     updateUser,
 } from '../controllers/User/admin.js';
-import { login, signup } from '../controllers/User/auth.js';
+import { login, signup, verifyEmail } from '../controllers/User/auth.js';
 import {
     deleteAvatar,
     getUserProfile,
@@ -23,6 +23,7 @@ const router = express.Router();
 
 router.route('/').get(protect, admin, getAllUsers).post(signup);
 router.route('/login').post(login);
+router.route('/verifyemail').post(verifyEmail);
 
 router.route('/profile').get(protect, getUserProfile);
 router.route('/profile/info').put(protect, updateUserProfileInfo);
