@@ -1,13 +1,14 @@
 import express from 'express';
 import {
-    deleteAvatar,
     deleteUser,
     getAllUsers,
     getUserById,
-    getUserProfile,
-    login,
-    signup,
     updateUser,
+} from '../controllers/User/admin.js';
+import { login, signup } from '../controllers/User/auth.js';
+import {
+    deleteAvatar,
+    getUserProfile,
     updateUserProfileEmail,
     updateUserProfileInfo,
     updateUserProfilePassword,
@@ -15,7 +16,7 @@ import {
     updateUserProfileToSeeler,
     upload,
     uploadAvatar,
-} from '../controllers/user.js';
+} from '../controllers/User/userProfile.js';
 import { admin, protect } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
