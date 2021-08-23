@@ -4,12 +4,17 @@ import dotenv from 'dotenv';
 
 import connectDB from './config/db.js';
 import { errorHandler, notFound } from './middlewares/errorMiddleware.js';
+import userRouter from './routes/user.js';
 
 dotenv.config();
 
 connectDB();
 
 const app = express();
+
+app.use(express.json());
+
+app.use('/api/users', userRouter);
 
 app.use(notFound);
 app.use(errorHandler);
