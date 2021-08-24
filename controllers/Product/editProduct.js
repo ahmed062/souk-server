@@ -1,4 +1,4 @@
-import Product from '../../models/Product.js';
+import { Product } from '../../models/Product.js';
 import Async from 'express-async-handler';
 import slugify from 'slugify';
 
