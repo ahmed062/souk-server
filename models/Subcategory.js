@@ -12,8 +12,7 @@ const subcategorySchema = new mongoose.Schema(
 		slug: String,
 	},
 	{
-		toJSON: true,
-		virtual: true,
+		timestamps: true,
 	}
 );
 

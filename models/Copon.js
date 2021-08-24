@@ -13,8 +13,7 @@ const coponSchema = new mongoose.Schema(
 		products: [{ type: ObjectId, ref: 'Product' }],
 	},
 	{
-		toJSON: true,
-		virtual: true,
+		timestamps: true,
 	}
 );
 

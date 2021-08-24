@@ -7,8 +7,7 @@ const categorySchema = new mongoose.Schema(
 		slug: String,
 	},
 	{
-		toJSON: true,
-		virtual: true,
+		timestamps: true,
 	}
 );
 categorySchema.pre('save', function () {
