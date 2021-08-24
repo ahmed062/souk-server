@@ -5,6 +5,8 @@ import connectDB from './config/db.js';
 
 // routes
 import userRouter from './routes/user.js';
+import orderRouter from './routes/order.js';
+import coponRouter from './routes/copon.js';
 import category from './routes/category.js';
 import subcategory from './routes/subcategory.js';
 import product from './routes/product.js';
@@ -19,6 +21,8 @@ app.use(express.json());
 
 // routes
 app.use('/api/users', userRouter);
+app.use('/api/orders', orderRouter);
+app.use('/api/copons', coponRouter);
 app.use(category);
 app.use(subcategory);
 app.use(product);

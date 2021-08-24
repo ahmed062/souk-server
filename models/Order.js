@@ -68,6 +68,7 @@ const orderSchema = mongoose.Schema(
         deliveredAt: {
             type: Date,
         },
+        usedCopons: [String],
     },
     {
         timestamps: true,

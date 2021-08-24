@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler';
-import Order from '../models/Order.js';
+import Order from '../../models/Order.js';
 
 // POST /api/orders
 // Private
