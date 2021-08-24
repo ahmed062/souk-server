@@ -4,12 +4,12 @@ import addSubcategory from '../controllers/Subcategory/addSubcategory.js';
 import editSubcategory from '../controllers/Subcategory/editSubcategory.js';
 import deleteSubcategory from '../controllers/Subcategory/removeSubcategory.js';
 
-import { admin, protect } from '../middlewares/authMiddleware.js';
-router.use(protect, admin);
-router.route('/api/subcategory').post(addSubcategory);
+import { protect, seller } from '../middlewares/authMiddleware.js';
+
+router.route('/api/subcategory').post(protect, seller, addSubcategory);
 router
-	.route('/api/subcategory/:slug')
-	.put(editSubcategory)
-	.delete(deleteSubcategory);
+    .route('/api/subcategory/:slug')
+    .put(protect, seller, editSubcategory)
+    .delete(protect, seller, deleteSubcategory);
 
 export default router;
