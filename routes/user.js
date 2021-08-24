@@ -36,10 +36,9 @@ router
 	.post(upload.single('avatar'), uploadAvatar)
 	.delete(deleteAvatar);
 // router.route('/profile/:id/avatar').get(protect, getProfileAvatar);
-router
-	.route('/:id')
-	.get(admin, getUserById)
-	.put(admin, updateUser)
-	.delete(admin, deleteUser);
+
+router.use(admin);
+
+router.route('/:id').get(getUserById).put(updateUser).delete(deleteUser);
 
 export default router;

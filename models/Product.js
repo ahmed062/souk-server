@@ -22,8 +22,7 @@ const productSchema = new mongoose.Schema(
 		slug: { type: String, unique: true },
 	},
 	{
-		toJSON: true,
-		virtual: true,
+		timestamps: true,
 	}
 );
 productSchema.pre('save', function () {

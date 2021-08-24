@@ -2,7 +2,6 @@ import express from 'express';
 import colors from 'colors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
-import { errorHandler, notFound } from './middlewares/errorMiddleware.js';
 
 // routes
 import userRouter from './routes/user.js';
@@ -10,6 +9,7 @@ import category from './routes/category.js';
 import subcategory from './routes/subcategory.js';
 import product from './routes/product.js';
 
+import { errorHandler, notFound } from './middlewares/errorMiddleware.js';
 const app = express();
 
 dotenv.config();
