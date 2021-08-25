@@ -30,7 +30,7 @@ export const updateUser = asyncHandler(async (req, res) => {
     if (user) {
         user.firstName = req.body.firstName || user.firstName;
         user.lastName = req.body.lastName || user.lastName;
-        user.role = req.body.role;
+        user.role = req.body.role || uer.role;
 
         const updatedUser = await user.save();
 

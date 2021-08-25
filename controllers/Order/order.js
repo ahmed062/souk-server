@@ -82,7 +82,7 @@ export const updateOrderStatus = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
 
     if (order) {
-        order.deliverStatus = req.body.deliverStatus;
+        order.deliverStatus = req.body.deliverStatus || order.deliverStatus;
 
         const updatedOrder = await order.save();
 

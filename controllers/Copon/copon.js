@@ -23,7 +23,7 @@ export const editCopon = asyncHandler(async (req, res) => {
     const copon = await Copon.findById(req.params.id);
 
     if (copon) {
-        copon.title = title;
+        copon.title = title || copon.title;
         copon.discount = discount || copon.discount;
         copon.expireDate = expireDate || copon.expireDate;
         copon.products = products || copon.products;
