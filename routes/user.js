@@ -17,6 +17,11 @@ import {
     upload,
     uploadAvatar,
 } from '../controllers/User/userProfile.js';
+import {
+    forgotPassword,
+    resetPassword,
+} from '../controllers/User/userResetPassword.js';
+import { verifyPhoneNumber } from '../controllers/User/userSms.js';
 import { admin, protect } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
@@ -24,6 +29,9 @@ const router = express.Router();
 router.route('/').get(admin, getAllUsers).post(signup);
 router.route('/login').post(login);
 router.route('/verifyemail').post(verifyEmail);
+router.route('/verifyphone').post(protect, verifyPhoneNumber);
+router.route('/forgotpassword').post(protect, forgotPassword);
+router.route('/forgotpassword/:resettoken').post(protect, resetPassword);
 
 router.route('/profile').get(protect, getUserProfile);
 router.route('/profile/info').put(protect, updateUserProfileInfo);

@@ -1,7 +1,7 @@
 import User from '../../models/User.js';
 import asyncHandler from 'express-async-handler';
 import generateToken from '../../utils/generateToken.js';
-import sendEmail from './userEmails.js';
+import { sendVerifyEmail } from './userEmails.js';
 
 // POST api/users
 // private
@@ -45,7 +45,7 @@ export const verifyEmail = asyncHandler(async (req, res) => {
 
     const verificationCode = Math.floor(100000 + Math.random() * 900000);
     try {
-        sendEmail(email, name, verificationCode);
+        sendVerifyEmail(email, name, verificationCode);
         res.json(verificationCode);
     } catch (error) {
         console.log(error);

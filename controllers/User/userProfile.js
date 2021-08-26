@@ -7,20 +7,10 @@ import validatePhoneNumber from 'validate-phone-number-node-js';
 // GET api/users/profile
 // private
 export const getUserProfile = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user._id).select('-password');
 
     if (user) {
-        res.json({
-            _id: user._id,
-            firstName: user.firstName,
-            lastname: user.lastName,
-            email: user.email,
-            role: user.role,
-            phone: user.phone,
-            country: user.country,
-            address1: user.address1,
-            address2: user.address2,
-        });
+        res.json(user);
     } else {
         res.status(404);
         throw new Error('User not found');
@@ -92,14 +82,20 @@ export const updateUserProfileEmail = asyncHandler(async (req, res) => {
 // PUT api/users/profile/password
 // private
 export const updateUserProfilePassword = asyncHandler(async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
+
     const user = await User.findById(req.user._id);
 
     if (user) {
-        user.password = req.body.password || user.password;
-        const updatedUser = await user.save();
-        res.json({
-            password: updatedUser.password,
-        });
+        if (await user.comparePassword(currentPassword)) {
+            user.password = newPassword || user.password;
+            const updatedUser = await user.save();
+            res.json({
+                password: updatedUser.password,
+            });
+        } else {
+            throw new Error('The password you entered is wrong');
+        }
     } else {
         res.status(404);
         throw new Error('User not found');
