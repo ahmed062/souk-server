@@ -11,6 +11,7 @@ import coponRouter from './routes/copon.js';
 import category from './routes/category.js';
 import subcategory from './routes/subcategory.js';
 import product from './routes/product.js';
+import plan from './routes/plan.js';
 
 import { errorHandler, notFound } from './middlewares/errorMiddleware.js';
 const app = express();
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/copons', coponRouter);
+app.use(plan);
 app.use(category);
 app.use(subcategory);
 app.use(product);
