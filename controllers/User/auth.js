@@ -5,72 +5,77 @@ import { sendVerifyEmail } from './userEmails.js';
 
 // POST api/users
 // private
-export const signup = asyncHandler(async (req, res) => {
-    const { firstName, lastName, email, password, country, role } = req.body;
+const signup = asyncHandler(async (req, res) => {
+	const { firstName, lastName, email, password, country, role, plan } =
+		req.body;
+	const user = await User.create({
+		firstName,
+		lastName,
+		email,
+		password,
+		country,
+		role,
+		plan,
+	});
 
-    const userExists = await User.findOne({ email });
-
-    if (userExists) {
-        throw new Error('User is already exists');
-    }
-
-    const user = await User.create({
-        firstName,
-        lastName,
-        email,
-        password,
-        country,
-        role,
-    });
-
-    if (user) {
-        res.status(201).json({
-            _id: user._id,
-            firstName: user.firstName,
-            lastname: user.lastName,
-            email: user.email,
-            role: user.role,
-            token: generateToken(user._id),
-        });
-    } else {
-        res.status(400);
-        throw new Error('Invalid user data');
-    }
+	if (user) {
+		res.status(201).json({
+			_id: user._id,
+			firstName: user.firstName,
+			lastname: user.lastName,
+			email: user.email,
+			role: user.role,
+			token: generateToken(user._id),
+			plan: user.plan,
+		});
+	} else {
+		res.status(400);
+		throw new Error('Invalid user data');
+	}
 });
 
 // POST api/users/verifyemail
 // private
 export const verifyEmail = asyncHandler(async (req, res) => {
-    const { name, email } = req.body;
+	const { name, email } = req.body;
 
-    const verificationCode = Math.floor(100000 + Math.random() * 900000);
-    try {
-        sendVerifyEmail(email, name, verificationCode);
-        res.json(verificationCode);
-    } catch (error) {
-        console.log(error);
-        throw new Error(error.message);
-    }
+	const verificationCode = Math.floor(100000 + Math.random() * 900000);
+	try {
+		sendVerifyEmail(email, name, verificationCode);
+		res.json(verificationCode);
+	} catch (error) {
+		console.log(error);
+		throw new Error(error.message);
+	}
 });
 
 // POST api/users/login
 // private
-export const login = asyncHandler(async (req, res) => {
-    const { email, password } = req.body;
+const login = asyncHandler(async (req, res) => {
+	const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+	const user = await User.findOne({ email });
 
-    if (user && (await user.comparePassword(password))) {
-        res.status(200).json({
-            _id: user._id,
-            firstName: user.firstName,
-            lastname: user.lastName,
-            email: user.email,
-            role: user.role,
-            token: generateToken(user._id),
-        });
-    } else {
-        res.status(401);
-        throw new Error('Invalid email or password');
-    }
+	if (user && (await user.comparePassword(password))) {
+		res.status(200).json({
+			_id: user._id,
+			firstName: user.firstName,
+			lastname: user.lastName,
+			email: user.email,
+			role: user.role,
+			token: generateToken(user._id),
+		});
+	} else {
+		res.status(401);
+		throw new Error('Invalid email or password');
+	}
 });
+
+export const loginOrRegister = async (req, res) => {
+	const user = await User.findOne({ email: req.body.email });
+	if (user === null) {
+		return signup(req, res);
+	} else {
+		return login(req, res);
+	}
+};

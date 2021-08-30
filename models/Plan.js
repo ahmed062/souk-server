@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const planSchema = new mongoose.Schema({
-	name: String,
+	name: { type: String, default: 'customer' },
 	percent: Number,
 });
 
