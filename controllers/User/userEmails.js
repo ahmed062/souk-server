@@ -47,4 +47,47 @@ const sendResetPasswordEmail = (email, req, resetToken) => {
         });
 };
 
-export { sendVerifyEmail, sendResetPasswordEmail };
+const sendAdEmail = (email, name, req, slug) => {
+    sgMail
+        .send({
+            to: email,
+            from: 'ahmedahmedmagdy491@gmail.com',
+            subject: `Hello ${name} check new updates in our store`,
+            text: `Hello, ${name}. there is a new product was added to store, check it from  <a href="${
+                req.protocol
+            }://${req.get('host')}/api/product/${slug}" >Here</a>`,
+            html: `<h3>Hello, ${name}. Check new products from <a href="${
+                req.protocol
+            }://${req.get('host')}/api/product/${slug}" >Here</a> </h3>`,
+        })
+        .then(() => {
+            console.log('Email sent');
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+const sendSpecialEmail = (email, message) => {
+    sgMail
+        .send({
+            to: email,
+            from: 'ahmedahmedmagdy491@gmail.com',
+            subject: `Hello from souk`,
+            text: `Hello, from souk`,
+            html: `<h3>Hello, from souk.</h3> <br/> <p>${message}</p>`,
+        })
+        .then(() => {
+            console.log('Email sent');
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
+export {
+    sendVerifyEmail,
+    sendResetPasswordEmail,
+    sendAdEmail,
+    sendSpecialEmail,
+};

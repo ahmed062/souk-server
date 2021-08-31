@@ -4,6 +4,7 @@ import {
     getAllUsers,
     getUserById,
     updateUser,
+    sendEmail,
 } from '../controllers/User/admin.js';
 import {
     facebookLogin,
@@ -38,6 +39,7 @@ router.route('/verifyemail').post(verifyEmail);
 router.route('/verifyphone').post(protect, verifyPhoneNumber);
 router.route('/forgotpassword').post(forgotPassword);
 router.route('/forgotpassword/:resettoken').post(resetPassword);
+router.route('/sendEmail').post(protect, admin, sendEmail);
 
 router.route('/profile').get(protect, getUserProfile);
 router.route('/profile/info').put(protect, updateUserProfileInfo);
