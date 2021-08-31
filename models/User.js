@@ -35,7 +35,6 @@ const usersSchema = mongoose.Schema(
         },
         country: {
             type: String,
-            required: true,
         },
         address1: {
             type: String,
@@ -54,10 +53,14 @@ const usersSchema = mongoose.Schema(
         avatar: {
             type: Buffer,
         },
+        plan: { type: mongoose.Schema.Types.ObjectId, ref: 'Plan' },
+        deposit: Number,
         wishlist: [wishlistSchema],
     },
     {
         timestamps: true,
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true },
     }
 );
 

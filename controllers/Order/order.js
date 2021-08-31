@@ -69,7 +69,6 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
         };
 
         const updatedOrder = await order.save();
-
         res.json(updatedOrder);
     } else {
         res.status(404);
@@ -119,19 +118,6 @@ export const getMyOrders = asyncHandler(async (req, res) => {
     res.json(orders);
 });
 
-const compare = (arr1, arr2) => {
-    const result = [];
-    for (let i = 0; i < arr1.length; i++) {
-        for (let j = 0; j < arr2.length; j++) {
-            if (arr1[i].product.toString() === arr2[j].toString()) {
-                result.push(arr2[j]);
-            }
-        }
-    }
-
-    return result;
-};
-
 // GET /api/orders/sellerorders
 // Private/seller
 export const getSellerOrders = asyncHandler(async (req, res) => {
@@ -149,6 +135,24 @@ export const getSellerOrders = asyncHandler(async (req, res) => {
 // GET /api/orders
 // Private/Seller
 export const getOrders = asyncHandler(async (req, res) => {
-    const orders = await Order.find({}).populate('user', 'id name');
+    let orders = await Order.find({}).populate('user', 'id name');
+
     res.json(orders);
 });
+
+// let sellers = orderItems.map((o) =>
+// 			o.orderItems.map((i) => i.product.seller)
+// 		);
+// 		let prices = orderItems.map((o) => o.orderItems.map((i) => i.price));
+// 		let plans = [];
+// 		for (let i = 0; i < sellers.length; i++) {
+// 			await User.findOne({
+// 				_id: sellers[i],
+// 				role: 'seller',
+// 			})
+// 				.populate('plan')
+// 				.then((res) =>
+// 					plans.push(res === null ? (res = 0) : res.plan.percent)
+// 				);
+// 		}
+// 		let deposit = plans.map((p, i) => (p / prices[i]) * 100);

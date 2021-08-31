@@ -9,6 +9,7 @@ import {
 	getPenddingReviews,
 	updateApproveOfReviews,
 } from '../controllers/Product/Review.js';
+import sellerProducts from '../controllers/Product/SellerProducts.js';
 import addToRetrievedProducts from '../controllers/Retrieved Product/addToRetrievedProducts.js';
 import getRetrievedProducts from '../controllers/Retrieved Product/getRetrievedProducts.js';
 import updateAccept from '../controllers/Retrieved Product/updateAccept.js';
@@ -32,5 +33,7 @@ router
 	.post(protect, addToRetrievedProducts)
 	.get(protect, seller, getRetrievedProducts)
 	.put(protect, seller, updateAccept);
+
+router.route('/api/seller/:sellerId').get(sellerProducts);
 
 export default router;

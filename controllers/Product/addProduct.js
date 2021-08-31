@@ -10,6 +10,7 @@ export const addProduct = Async(async (req, res) => {
 	if (req.body.images.length === 0) {
 		return res.status(400).json('The images are required');
 	}
+	req.body.seller = req.user._id;
 	await Product.create(req.body, (err) => {
 		if (err) console.log('err in add product', err);
 		res.json({

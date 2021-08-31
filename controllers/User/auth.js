@@ -5,13 +5,13 @@ import { sendVerifyEmail } from './userEmails.js';
 
 // POST api/users
 // private
-export const signup = asyncHandler(async (req, res) => {
-    const { firstName, lastName, email, password, country, role } = req.body;
+const signup = asyncHandler(async (req, res) => {
+    const { firstName, lastName, email, password, country, role, plan } =
+        req.body;
 
     const userExists = await User.findOne({ email });
-
     if (userExists) {
-        throw new Error('User is already exists');
+        throw new Error('User already exists');
     }
 
     const user = await User.create({
@@ -21,6 +21,7 @@ export const signup = asyncHandler(async (req, res) => {
         password,
         country,
         role,
+        plan,
     });
 
     if (user) {
@@ -31,6 +32,7 @@ export const signup = asyncHandler(async (req, res) => {
             email: user.email,
             role: user.role,
             token: generateToken(user._id),
+            plan: user.plan,
         });
     } else {
         res.status(400);
@@ -42,6 +44,11 @@ export const signup = asyncHandler(async (req, res) => {
 // private
 export const verifyEmail = asyncHandler(async (req, res) => {
     const { name, email } = req.body;
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+        throw new Error('User already exists');
+    }
 
     const verificationCode = Math.floor(100000 + Math.random() * 900000);
     try {
@@ -55,7 +62,7 @@ export const verifyEmail = asyncHandler(async (req, res) => {
 
 // POST api/users/login
 // private
-export const login = asyncHandler(async (req, res) => {
+const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -74,3 +81,12 @@ export const login = asyncHandler(async (req, res) => {
         throw new Error('Invalid email or password');
     }
 });
+
+export const loginOrRegister = async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (user === null) {
+        return signup(req, res);
+    } else {
+        return login(req, res);
+    }
+};
