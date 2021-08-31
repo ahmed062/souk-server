@@ -51,7 +51,7 @@ const sendAdEmail = (email, name, req, slug) => {
 	sgMail
 		.send({
 			to: email,
-			from: 'ashaban7642@gmail.com',
+			from: 'ahmedahmedmagdy491@gmail.com',
 			subject: `Hello ${name} check new updates in our store`,
 			text: `Hello, ${name}. there is a new product was added to store, check it from  <a href="${
 				req.protocol
@@ -68,4 +68,26 @@ const sendAdEmail = (email, name, req, slug) => {
 		});
 };
 
-export { sendVerifyEmail, sendResetPasswordEmail, sendAdEmail };
+const sendSpecialEmail = (email, message) => {
+	sgMail
+		.send({
+			to: email,
+			from: 'ahmedahmedmagdy491@gmail.com',
+			subject: `Hello from souk`,
+			text: `Hello, from souk`,
+			html: `<h3>Hello, from souk.</h3> <br/> <p>${message}</p>`,
+		})
+		.then(() => {
+			console.log('Email sent');
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+};
+
+export {
+	sendVerifyEmail,
+	sendResetPasswordEmail,
+	sendAdEmail,
+	sendSpecialEmail,
+};

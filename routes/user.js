@@ -3,6 +3,7 @@ import {
 	deleteUser,
 	getAllUsers,
 	getUserById,
+	sendEmail,
 	updateUser,
 } from '../controllers/User/admin.js';
 import { loginOrRegister, verifyEmail } from '../controllers/User/auth.js';
@@ -48,5 +49,7 @@ router
 	.get(admin, getUserById)
 	.put(admin, updateUser)
 	.delete(admin, deleteUser);
+
+router.route('/sendEmail').post(protect, admin, sendEmail);
 
 export default router;

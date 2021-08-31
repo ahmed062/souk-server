@@ -1,5 +1,6 @@
 import User from '../../models/User.js';
 import asyncHandler from 'express-async-handler';
+import { sendSpecialEmail } from './userEmails.js';
 
 // GET api/users/:id
 // private/admin
@@ -60,17 +61,15 @@ export const deleteUser = asyncHandler(async (req, res) => {
 	}
 });
 
-// export const getProfileAvatar = asyncHandler(async (req, res) => {
-//     try {
-//         const user = await User.findById(req.params.id);
-
-//         if (!user || !user.avatar) {
-//             throw new Error();
-//         }
-
-//         res.set('Content-type', 'image/png');
-//         res.send(user.avatar);
-//     } catch (e) {
-//         res.status(404).send();
-//     }
-// });
+export const sendEmail = asyncHandler(async (req, res) => {
+	const { email, message } = req.body;
+	try {
+		sendSpecialEmail(email, message);
+		res.json({
+			success: true,
+			message: 'sent!',
+		});
+	} catch (error) {
+		console.log(error);
+	}
+});
