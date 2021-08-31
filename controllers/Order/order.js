@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../../models/Order.js';
+import { Product } from '../../models/Product.js';
 
 // POST /api/orders
 // Private
@@ -115,6 +116,33 @@ export const updateOrderToDelivered = asyncHandler(async (req, res) => {
 // Private
 export const getMyOrders = asyncHandler(async (req, res) => {
     const orders = await Order.find({ user: req.user._id });
+    res.json(orders);
+});
+
+const compare = (arr1, arr2) => {
+    const result = [];
+    for (let i = 0; i < arr1.length; i++) {
+        for (let j = 0; j < arr2.length; j++) {
+            if (arr1[i].product.toString() === arr2[j].toString()) {
+                result.push(arr2[j]);
+            }
+        }
+    }
+
+    return result;
+};
+
+// GET /api/orders/sellerorders
+// Private/seller
+export const getSellerOrders = asyncHandler(async (req, res) => {
+    const products = await Product.find({ seller: req.user._id });
+    const orders = await Order.find({
+        'orderItems.product': products,
+    });
+
+    const myorders = orders.map((order) => order.orderItems);
+    myorders[0].pop((item) => products.indexOf(item.product) !== -1);
+
     res.json(orders);
 });
 
