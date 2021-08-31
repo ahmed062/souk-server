@@ -18,7 +18,7 @@ const reviewSchema = new mongoose.Schema(
 const productSchema = new mongoose.Schema(
 	{
 		name: String,
-		images: Array,
+		images: [{ type: Buffer }],
 		subcategory: {
 			type: ObjectId,
 			ref: 'Subcateogry',
@@ -36,7 +36,25 @@ const productSchema = new mongoose.Schema(
 		rating: { type: Number, default: 0.0 },
 		numReviews: { type: Number, default: 0 },
 		quantity: Number,
+		sku: String,
+		mainMaterial: String,
+		model: String,
+		productionCountry: String,
+		productLine: String,
+		size: String,
+		weight: Number,
+		website: String,
+		unit: String,
+		minimumPurchaseQty: Number,
+		tags: Array,
+		shippingDays: Number,
+		unit: String,
+		unitPrice: String,
+		discountDate: Date,
+		seoTags: Array,
+		seoDescription: String,
 	},
+
 	{
 		timestamps: true,
 		toJSON: { virtuals: true },
