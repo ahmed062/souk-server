@@ -59,12 +59,12 @@ const orderSchema = mongoose.Schema(
         paidAt: {
             type: Date,
         },
-        isPaidDeposit: {
+        isPaidProfit: {
             type: Boolean,
             required: true,
             default: false,
         },
-        paidDepositAt: {
+        paidProfitAt: {
             type: Date,
         },
         deliverStatus: {

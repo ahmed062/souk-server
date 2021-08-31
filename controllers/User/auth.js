@@ -71,7 +71,7 @@ export const login = asyncHandler(async (req, res) => {
         res.status(200).json({
             _id: user._id,
             firstName: user.firstName,
-            lastname: user.lastName,
+            lastName: user.lastName,
             email: user.email,
             role: user.role,
             token: generateToken(user._id),
@@ -93,7 +93,7 @@ export const facebookLogin = asyncHandler(async (req, res) => {
         res.status(200).json({
             _id: user._id,
             firstName: user.firstName,
-            lastname: user.lastName,
+            lastName: user.lastName,
             email: user.email,
             role: user.role,
             token: generateToken(user._id),

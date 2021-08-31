@@ -76,6 +76,29 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
     }
 });
 
+// PUT /api/orders/:id/payprofit
+// Private
+export const updateOrderToPaidProfit = asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id);
+
+    if (order) {
+        order.isPaidProfit = true;
+        order.paidProfitAt = Date.now();
+        order.paymentResult = {
+            id: req.body.id,
+            status: req.body.status,
+            update_time: req.body.update_time,
+            email_address: req.body.payer.email_address,
+        };
+
+        const updatedOrder = await order.save();
+        res.json(updatedOrder);
+    } else {
+        res.status(404);
+        throw new Error('Order not found');
+    }
+});
+
 // GET /api/orders/:id/status
 // Private/Seller
 export const updateOrderStatus = asyncHandler(async (req, res) => {
