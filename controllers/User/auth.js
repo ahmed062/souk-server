@@ -82,6 +82,28 @@ export const login = asyncHandler(async (req, res) => {
     }
 });
 
+// POST api/users/facebooklogin
+// private
+export const facebookLogin = asyncHandler(async (req, res) => {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (user) {
+        res.status(200).json({
+            _id: user._id,
+            firstName: user.firstName,
+            lastname: user.lastName,
+            email: user.email,
+            role: user.role,
+            token: generateToken(user._id),
+        });
+    } else {
+        res.status(401);
+        throw new Error('Invalid email');
+    }
+});
+
 // export const loginOrRegister = async (req, res) => {
 //     const user = await User.findOne({ email: req.body.email });
 //     if (user === null) {

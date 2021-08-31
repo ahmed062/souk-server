@@ -5,7 +5,12 @@ import {
     getUserById,
     updateUser,
 } from '../controllers/User/admin.js';
-import { login, signup, verifyEmail } from '../controllers/User/auth.js';
+import {
+    facebookLogin,
+    login,
+    signup,
+    verifyEmail,
+} from '../controllers/User/auth.js';
 import {
     deleteAvatar,
     getUserProfile,
@@ -28,6 +33,7 @@ const router = express.Router();
 
 router.route('/').get(protect, admin, getAllUsers).post(signup);
 router.route('/login').post(login);
+router.route('/facebooklogin').post(facebookLogin);
 router.route('/verifyemail').post(verifyEmail);
 router.route('/verifyphone').post(protect, verifyPhoneNumber);
 router.route('/forgotpassword').post(forgotPassword);
