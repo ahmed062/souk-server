@@ -26,12 +26,12 @@ import { admin, protect } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.route('/').get(admin, getAllUsers).post(signup);
+router.route('/').get(protect, admin, getAllUsers).post(signup);
 router.route('/login').post(login);
 router.route('/verifyemail').post(verifyEmail);
 router.route('/verifyphone').post(protect, verifyPhoneNumber);
-router.route('/forgotpassword').post(protect, forgotPassword);
-router.route('/forgotpassword/:resettoken').post(protect, resetPassword);
+router.route('/forgotpassword').post(forgotPassword);
+router.route('/forgotpassword/:resettoken').post(resetPassword);
 
 router.route('/profile').get(protect, getUserProfile);
 router.route('/profile/info').put(protect, updateUserProfileInfo);
@@ -46,8 +46,8 @@ router
 // router.route('/profile/:id/avatar').get(protect, getProfileAvatar);
 router
     .route('/:id')
-    .get(admin, getUserById)
-    .put(admin, updateUser)
-    .delete(admin, deleteUser);
+    .get(protect, admin, getUserById)
+    .put(protect, admin, updateUser)
+    .delete(protect, admin, deleteUser);
 
 export default router;

@@ -59,6 +59,14 @@ const orderSchema = mongoose.Schema(
         paidAt: {
             type: Date,
         },
+        isPaidDeposit: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
+        paidDepositAt: {
+            type: Date,
+        },
         deliverStatus: {
             type: String,
             enum: ['Starting', 'On Going', 'Delivered'],
