@@ -48,7 +48,7 @@ const usersSchema = mongoose.Schema(
         },
         plan: { type: mongoose.Schema.Types.ObjectId, ref: 'Plan' },
         deposit: Number,
-        wishlist: [wishlistSchema],
+        wishlist: Array,
     },
     {
         timestamps: true,
