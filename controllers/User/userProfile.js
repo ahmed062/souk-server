@@ -148,7 +148,7 @@ export const uploadAvatar = asyncHandler(
             .toBuffer();
         req.user.avatar = buffer;
         await req.user.save();
-        res.send();
+        res.json(req.user.avatar);
     },
     (error, req, res, next) => {
         res.status(400).send({ error: error.message });
