@@ -6,8 +6,7 @@ import { sendVerifyEmail } from './userEmails.js';
 // POST api/users
 // private
 export const signup = asyncHandler(async (req, res) => {
-    const { firstName, lastName, email, password, country, role, plan } =
-        req.body;
+    const { firstName, lastName, email, password, country, role } = req.body;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -21,7 +20,6 @@ export const signup = asyncHandler(async (req, res) => {
         password,
         country,
         role,
-        plan,
     });
 
     if (user) {
@@ -32,7 +30,6 @@ export const signup = asyncHandler(async (req, res) => {
             email: user.email,
             role: user.role,
             token: generateToken(user._id),
-            plan: user.plan,
         });
     } else {
         res.status(400);

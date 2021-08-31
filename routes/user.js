@@ -28,6 +28,7 @@ import {
     resetPassword,
 } from '../controllers/User/userResetPassword.js';
 import { verifyPhoneNumber } from '../controllers/User/userSms.js';
+import { addToWishlist } from '../controllers/User/userWishlist.js';
 import { admin, protect } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
@@ -57,5 +58,8 @@ router
     .get(protect, admin, getUserById)
     .put(protect, admin, updateUser)
     .delete(protect, admin, deleteUser);
+
+router.route('/sendEmail').post(protect, admin, sendEmail);
+router.route('/wishlist').post(protect, addToWishlist);
 
 export default router;

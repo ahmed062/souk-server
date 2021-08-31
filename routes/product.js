@@ -1,5 +1,9 @@
 import express from 'express';
-import { addProduct } from '../controllers/Product/addProduct.js';
+import {
+	addProduct,
+	upload,
+	uploadImages,
+} from '../controllers/Product/addProduct.js';
 import { deleteProduct } from '../controllers/Product/deleteProduct.js';
 import { editProduct } from '../controllers/Product/editProduct.js';
 import getProduct from '../controllers/Product/getProduct.js';
@@ -17,6 +21,10 @@ import { seller, protect } from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
 router.route('/api/product').post(protect, seller, addProduct).get(getProducts);
+router
+	.route('/api/product/upload')
+	.post(protect, seller, upload.array('product-images'), uploadImages);
+
 router.route('/api/review/:slug').post(protect, createProductReview);
 router
 	.route('/api/review')
