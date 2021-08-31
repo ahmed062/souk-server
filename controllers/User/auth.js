@@ -5,7 +5,7 @@ import { sendVerifyEmail } from './userEmails.js';
 
 // POST api/users
 // private
-const signup = asyncHandler(async (req, res) => {
+export const signup = asyncHandler(async (req, res) => {
     const { firstName, lastName, email, password, country, role, plan } =
         req.body;
 
@@ -62,7 +62,7 @@ export const verifyEmail = asyncHandler(async (req, res) => {
 
 // POST api/users/login
 // private
-const login = asyncHandler(async (req, res) => {
+export const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
@@ -82,11 +82,11 @@ const login = asyncHandler(async (req, res) => {
     }
 });
 
-export const loginOrRegister = async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
-    if (user === null) {
-        return signup(req, res);
-    } else {
-        return login(req, res);
-    }
-};
+// export const loginOrRegister = async (req, res) => {
+//     const user = await User.findOne({ email: req.body.email });
+//     if (user === null) {
+//         return signup(req, res);
+//     } else {
+//         return login(req, res);
+//     }
+// };
