@@ -5,12 +5,7 @@ import {
     getUserById,
     updateUser,
 } from '../controllers/User/admin.js';
-import {
-    login,
-    loginOrRegister,
-    signup,
-    verifyEmail,
-} from '../controllers/User/auth.js';
+import { login, signup, verifyEmail } from '../controllers/User/auth.js';
 import {
     deleteAvatar,
     getUserProfile,
