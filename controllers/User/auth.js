@@ -37,6 +37,37 @@ export const signup = asyncHandler(async (req, res) => {
     }
 });
 
+// POST api/users/facebooksignup
+// private
+export const facebookSignup = asyncHandler(async (req, res) => {
+    const { firstName, lastName, email } = req.body;
+
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+        throw new Error('User already exists');
+    }
+
+    const user = await User.create({
+        firstName,
+        lastName,
+        email,
+    });
+
+    if (user) {
+        res.status(201).json({
+            _id: user._id,
+            firstName: user.firstName,
+            lastname: user.lastName,
+            email: user.email,
+            role: user.role,
+            token: generateToken(user._id),
+        });
+    } else {
+        res.status(400);
+        throw new Error('Invalid user data');
+    }
+});
+
 // POST api/users/verifyemail
 // private
 export const verifyEmail = asyncHandler(async (req, res) => {

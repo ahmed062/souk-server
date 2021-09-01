@@ -8,6 +8,7 @@ import {
 } from '../controllers/User/admin.js';
 import {
     facebookLogin,
+    facebookSignup,
     login,
     signup,
     verifyEmail,
@@ -35,6 +36,7 @@ const router = express.Router();
 
 router.route('/').get(protect, admin, getAllUsers).post(signup);
 router.route('/login').post(login);
+router.route('/facebooksignup').post(facebookSignup);
 router.route('/facebooklogin').post(facebookLogin);
 router.route('/verifyemail').post(verifyEmail);
 router.route('/verifyphone').post(protect, verifyPhoneNumber);

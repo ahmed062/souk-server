@@ -151,7 +151,7 @@ export const uploadAvatar = asyncHandler(
         res.json(req.user.avatar);
     },
     (error, req, res, next) => {
-        res.status(400).send({ error: error.message });
+        res.status(400).json({ error: error.message });
     }
 );
 
