@@ -1,6 +1,9 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../../models/Order.js';
+import Plan from '../../models/Plan.js';
 import { Product } from '../../models/Product.js';
+import User from '../../models/User.js';
+import { getUserById } from '../User/admin.js';
 
 // POST /api/orders
 // Private
@@ -169,15 +172,40 @@ export const getSellerOrders = asyncHandler(async (req, res) => {
     res.json(orders);
 });
 
-// GET /api/orders/sellerprofit
+// GET /api/orders/:id/sellerprofit
 // Private/admin
 export const getSellerProfit = asyncHandler(async (req, res) => {
     const orders = await sellerOrders(req, res);
-    const newOrders = orders.filter((order) => !order.isPaidProfit);
-    const myorderItems = newOrders.map((order) => order.orderItems);
-    const profit = myorderItems[0].map((item) => item.price);
+    if (orders.length !== 0) {
+        const newOrders = orders.filter((order) => !order.isPaidProfit);
+        const myorderItems = newOrders.map((order) => order.orderItems);
+        let price = [];
+        // myorderItems.map((item) => item[0].price);
 
-    res.json(profit[0]);
+        for (let i = 0; i < myorderItems.length; i++) {
+            for (let j = 0; j < myorderItems[i].length; j++) {
+                price.push(myorderItems[i][j].price);
+            }
+        }
+
+        const seller = await User.findById(req.params.id).select(
+            '-password -avatar'
+        );
+        if (seller) {
+            const plan = await Plan.findById(seller.plan);
+            const profit = plan.percent;
+            const priceAfterProfit = price
+                .map((price) => (price -= price * (profit / 100)))
+                .reduce((sum, item) => sum + item);
+
+            res.json(priceAfterProfit);
+        } else {
+            res.status(404);
+            throw new Error('Seller not found');
+        }
+    } else {
+        res.json([]);
+    }
 });
 
 // GET /api/orders
