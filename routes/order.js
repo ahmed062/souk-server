@@ -5,6 +5,7 @@ import {
     getOrderById,
     getOrders,
     getSellerOrders,
+    getSellerProfit,
     updateOrderToDelivered,
     updateOrderToPaid,
     updateOrderToPaidProfit,
@@ -16,6 +17,7 @@ const router = express.Router();
 
 router.route('/').post(protect, addOrderItems).get(protect, seller, getOrders);
 router.route('/sellerorders').get(protect, getSellerOrders);
+router.route('/sellerprofit').get(protect, getSellerProfit);
 router.route('/myorders').get(protect, getMyOrders);
 router.route('/:id').get(protect, getOrderById);
 router.route('/:id/usecopon').put(protect, updateOrderPrice);
