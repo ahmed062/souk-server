@@ -3,7 +3,7 @@ import colors from 'colors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import cors from 'cors';
-
+import socket from 'socket.io';
 // routes
 import userRouter from './routes/user.js';
 import orderRouter from './routes/order.js';
@@ -38,4 +38,18 @@ app.listen(process.env.PORT || 5000, () => {
 		`app is listening in ${process.env.NODE_ENV} mode on port ${process.env.PORT} `
 			.yellow.bold
 	);
+});
+
+// chat server
+var io = socket(server);
+
+io.on('connection', (socket) => {
+	console.log('made Socket connection', socket.id);
+	socket.on('chat', (data) => {
+		io.sockets.emit('chat', data);
+	});
+
+	socket.on('typing', (data) => {
+		socket.broadcast.emit('typing', data);
+	});
 });

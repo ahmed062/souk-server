@@ -48,7 +48,6 @@ const productSchema = new mongoose.Schema(
 		minimumPurchaseQty: Number,
 		tags: Array,
 		shippingDays: Number,
-		unit: String,
 		unitPrice: String,
 		discountDate: Date,
 		seoTags: Array,
