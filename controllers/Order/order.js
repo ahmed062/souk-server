@@ -181,26 +181,9 @@ export const getSellerProfit = asyncHandler(async (req, res) => {
 });
 
 // GET /api/orders
-// Private/Seller
+// Private/Admin
 export const getOrders = asyncHandler(async (req, res) => {
     let orders = await Order.find({}).populate('user', 'id name');
 
     res.json(orders);
 });
-
-// let sellers = orderItems.map((o) =>
-// 			o.orderItems.map((i) => i.product.seller)
-// 		);
-// 		let prices = orderItems.map((o) => o.orderItems.map((i) => i.price));
-// 		let plans = [];
-// 		for (let i = 0; i < sellers.length; i++) {
-// 			await User.findOne({
-// 				_id: sellers[i],
-// 				role: 'seller',
-// 			})
-// 				.populate('plan')
-// 				.then((res) =>
-// 					plans.push(res === null ? (res = 0) : res.plan.percent)
-// 				);
-// 		}
-// 		let deposit = plans.map((p, i) => (p / prices[i]) * 100);

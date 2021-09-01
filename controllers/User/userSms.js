@@ -1,5 +1,6 @@
 import Vonage from '@vonage/server-sdk';
 import asyncHandler from 'express-async-handler';
+import { phone } from 'phone';
 
 // Init Nexmo
 
@@ -34,6 +35,12 @@ const sendSms = (from, to, text) =>
 // private
 export const verifyPhoneNumber = asyncHandler(async (req, res) => {
     const { phoneNumber } = req.body;
+
+    const validNumber = phone(phoneNumber);
+    console.log(validNumber);
+    if (!validNumber.isValid) {
+        throw new Error('please enter a valid number');
+    }
 
     const verificationCode = Math.floor(100000 + Math.random() * 900000);
     try {
