@@ -44,6 +44,7 @@ const sendResetPasswordEmail = (email, req, resetToken) => {
         })
         .catch((error) => {
             console.error(error);
+            return error;
         });
 };
 
