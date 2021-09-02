@@ -70,7 +70,7 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
         const { orderItems } = order;
         for (let i = 0; i < orderItems.length; i++) {
             let product = await Product.findOne({
-                slug: orderItems[i].product,
+                _id: orderItems[i].product,
             }).exec();
             productQty = product.quantity;
             product.quantity = productQty - orderItems[i].qty;
