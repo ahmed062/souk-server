@@ -5,6 +5,7 @@ import {
     getUserById,
     updateUser,
     sendEmail,
+    getAllSellers,
 } from '../controllers/User/admin.js';
 import {
     facebookLogin,
@@ -35,6 +36,7 @@ import { admin, protect } from '../middlewares/authMiddleware.js';
 const router = express.Router();
 
 router.route('/').get(protect, admin, getAllUsers).post(signup);
+router.route('/sellers').get(protect, admin, getAllSellers);
 router.route('/login').post(login);
 router.route('/facebooksignup').post(facebookSignup);
 router.route('/facebooklogin').post(facebookLogin);

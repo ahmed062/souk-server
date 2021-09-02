@@ -22,6 +22,16 @@ export const getAllUsers = asyncHandler(async (req, res) => {
     res.json(users);
 });
 
+// GET api/users/sellers
+// private/admin
+export const getAllSellers = asyncHandler(async (req, res) => {
+    const users = await User.find({ role: 'seller' }).select(
+        '-password -avatar'
+    );
+
+    res.json(users);
+});
+
 // Update user
 // Put /api/users/:id
 // Private/Admin
