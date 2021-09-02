@@ -44,6 +44,23 @@ export const getSellerOrders = asyncHandler(async (req, res) => {
     res.json(orders);
 });
 
+// GET /api/orders/sellercustomers
+// Private/seller
+export const getSellerCustomers = asyncHandler(async (req, res) => {
+    const orders = await sellerOrders(req, res);
+    const customers = orders.map((order) => order.user);
+
+    for (let i = 0; i < customers.length; i++) {
+        const uniqueCustomers = [];
+        for (let j = 0; j < customers.length; j++) {
+            if (customers[i].toString() !== customers[j].toString()) {
+                uniqueCustomers.push(customers[i]);
+            }
+        }
+    }
+    res.json(uniqueCustomers);
+});
+
 // DELETE api/orders/:id
 // private/seller
 export const deleteOrder = asyncHandler(async (req, res) => {

@@ -12,6 +12,7 @@ import {
 } from '../controllers/Order/order.js';
 import {
     deleteOrder,
+    getSellerCustomers,
     getSellerOrders,
     updateOrderToDelivered,
 } from '../controllers/Order/seller.js';
@@ -22,6 +23,7 @@ const router = express.Router();
 
 router.route('/').post(protect, addOrderItems).get(protect, seller, getOrders);
 router.route('/sellerorders').get(protect, seller, getSellerOrders);
+router.route('/sellercustomers').get(protect, seller, getSellerCustomers);
 router.route('/:id/sellerprofit').get(protect, admin, getSellerProfit);
 router.route('/myorders').get(protect, getMyOrders);
 router
