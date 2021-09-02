@@ -8,9 +8,9 @@ const updateAccept = Async(async (req, res) => {
 			accept: req.body.accept,
 			retrieveMoney: req.body.money,
 		},
-		(err) => {
+		(err, result) => {
 			if (err) return res.status(400).send(err);
-			res.json({ success: true, message: 'done!' });
+			res.json({ success: true, message: 'done!', result });
 		}
 	);
 });
