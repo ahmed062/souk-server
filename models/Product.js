@@ -52,6 +52,7 @@ const productSchema = new mongoose.Schema(
 		discountDate: Date,
 		seoTags: Array,
 		seoDescription: String,
+		tax: Number,
 	},
 
 	{
@@ -62,6 +63,8 @@ const productSchema = new mongoose.Schema(
 );
 productSchema.pre('save', function () {
 	this.slug = slugify(this.name);
+	this.originalPrice = this.originalPrice + this.tax;
+	this.discountPrice = this.discountPrice + this.tax;
 });
 
 // Reverse populate with virtuals
