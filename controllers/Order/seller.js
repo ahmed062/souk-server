@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../../models/Order.js';
+import User from '../../models/User.js';
 import { sellerOrders } from './order.js';
 
 // GET /api/orders/:id/status
@@ -50,15 +51,26 @@ export const getSellerCustomers = asyncHandler(async (req, res) => {
     const orders = await sellerOrders(req, res);
     const customers = orders.map((order) => order.user);
 
-    for (let i = 0; i < customers.length; i++) {
-        const uniqueCustomers = [];
-        for (let j = 0; j < customers.length; j++) {
-            if (customers[i].toString() !== customers[j].toString()) {
-                uniqueCustomers.push(customers[i]);
+    const removeDuplicates = (inputArray) => {
+        const ids = [];
+        return inputArray.reduce((sum, element) => {
+            if (!ids.includes(element.toString())) {
+                sum.push(element);
+                ids.push(element.toString());
             }
-        }
+            return sum;
+        }, []);
+    };
+    const uniqueCustomers = removeDuplicates(customers);
+    const users = [];
+    for (let i = 0; i < uniqueCustomers.length; i++) {
+        let user = await User.findById(uniqueCustomers[i]).select(
+            '-avatar -password'
+        );
+        users.push(user);
     }
-    res.json(uniqueCustomers);
+
+    res.json(users);
 });
 
 // DELETE api/orders/:id
