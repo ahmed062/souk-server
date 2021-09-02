@@ -13,7 +13,8 @@ export const editProduct = Async(async (req, res) => {
 		req.body,
 		(err) => {
 			if (err) return res.status(400).send(err);
-			res.json({ success: true, message: 'done!' });
 		}
 	).exec();
+	await product.save();
+	res.json({ success: true, message: 'done!', product });
 });

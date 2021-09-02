@@ -8,7 +8,7 @@ const getProduct = Async(async (req, res) => {
 
 	const approvedReviews = product.reviews.filter((r) => r.approve === true);
 	product.reviews = approvedReviews;
-	console.log(approvedReviews);
+
 	res.status(200).json({
 		success: true,
 		data: product,
