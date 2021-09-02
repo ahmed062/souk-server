@@ -180,7 +180,6 @@ export const getSellerProfit = asyncHandler(async (req, res) => {
         const newOrders = orders.filter((order) => !order.isPaidProfit);
         const myorderItems = newOrders.map((order) => order.orderItems);
         let price = [];
-        // myorderItems.map((item) => item[0].price);
 
         for (let i = 0; i < myorderItems.length; i++) {
             for (let j = 0; j < myorderItems[i].length; j++) {
