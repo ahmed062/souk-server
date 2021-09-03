@@ -70,7 +70,7 @@ const orderSchema = mongoose.Schema(
             type: String,
             enum: ['Pending', 'On Going', 'Delivered'],
             required: true,
-            default: 'Starting',
+            default: 'Pending',
         },
         deliveredAt: {
             type: Date,
