@@ -3,7 +3,7 @@ import Order from '../../models/Order.js';
 import User from '../../models/User.js';
 import { sellerOrders } from './order.js';
 
-// GET /api/orders/:id/status
+// PUT /api/orders/:id/status
 // Private/Seller
 export const updateOrderStatus = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);

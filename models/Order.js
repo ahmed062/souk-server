@@ -68,7 +68,7 @@ const orderSchema = mongoose.Schema(
         },
         deliverStatus: {
             type: String,
-            enum: ['Starting', 'On Going', 'Delivered'],
+            enum: ['Pending', 'On Going', 'Delivered'],
             required: true,
             default: 'Starting',
         },
