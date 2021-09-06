@@ -1,5 +1,6 @@
 import express from 'express';
 import colors from 'colors';
+import path from 'path';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import cors from 'cors';
@@ -23,6 +24,7 @@ dotenv.config();
 connectDB();
 app.use(express.json());
 
+app.use('/uploads', express.static(path.join(path.dirname + '/uploads')));
 // routes
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);

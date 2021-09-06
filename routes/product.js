@@ -1,9 +1,5 @@
 import express from 'express';
-import {
-	addProduct,
-	upload,
-	uploadImages,
-} from '../controllers/Product/addProduct.js';
+import { addProduct } from '../controllers/Product/addProduct.js';
 import { deleteProduct } from '../controllers/Product/deleteProduct.js';
 import { editProduct } from '../controllers/Product/editProduct.js';
 import getProduct from '../controllers/Product/getProduct.js';
@@ -18,12 +14,17 @@ import addToRetrievedProducts from '../controllers/Retrieved Product/addToRetrie
 import getRetrievedProducts from '../controllers/Retrieved Product/getRetrievedProducts.js';
 import updateAccept from '../controllers/Retrieved Product/updateAccept.js';
 import { seller, protect } from '../middlewares/authMiddleware.js';
+import { upload } from '../middlewares/upload.js';
 const router = express.Router();
 
 router.route('/api/product').post(protect, seller, addProduct).get(getProducts);
 router
-	.route('/api/product/upload')
-	.post(protect, seller, upload.array('product-images'), uploadImages);
+	.route('/api/upload')
+	.post(protect, seller, upload.array('images'), async (req, res) => {
+		if (req.files[0] == undefined)
+			res.status(400).send('please select images');
+		res.send(req.files.map((file) => file.filename));
+	});
 
 router.route('/api/review/:slug').post(protect, createProductReview);
 router
