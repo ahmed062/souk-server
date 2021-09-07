@@ -1,6 +1,7 @@
 import User from '../../models/User.js';
 import asyncHandler from 'express-async-handler';
 import { sendSpecialEmail } from './userEmails.js';
+import Profit from '../../models/Profit.js';
 
 // GET api/users/:id
 // private/admin
@@ -82,4 +83,36 @@ export const sendEmail = asyncHandler(async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+});
+
+// PUT /api/users/:id/payprofit
+// Private/Admin
+export const payProfit = asyncHandler(async (req, res) => {
+    const profit = await Profit.create({
+        seller: req.params.id,
+        price: req.body.price,
+        isPaid: true,
+        paidAt: Date.now(),
+        paymentMethod: req.body.paymentMethod,
+        paymentResult: {
+            id: req.body.id,
+            status: req.body.status,
+            update_time: req.body.update_time,
+            email_address: req.body.payer.email_address,
+        },
+    });
+
+    const savedProfit = await profit.save();
+
+    try {
+        if (savedProfit) {
+            const seller = await User.findById(req.params.id);
+            seller.monyAfterProfit = 0;
+            await seller.save();
+        }
+    } catch (error) {
+        throw new Error('Something went wrong with the payment');
+    }
+
+    res.json(savedProfit);
 });
