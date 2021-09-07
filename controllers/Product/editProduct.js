@@ -16,5 +16,5 @@ export const editProduct = Async(async (req, res) => {
 		}
 	).exec();
 	await product.save();
-	res.json({ success: true, message: 'done!', product });
+	res.json({ success: true, message: 'done!', data: product });
 });

@@ -18,7 +18,7 @@ const reviewSchema = new mongoose.Schema(
 const productSchema = new mongoose.Schema(
 	{
 		name: String,
-		images: [{ type: Buffer }],
+		images: Array,
 		subcategory: {
 			type: ObjectId,
 			ref: 'Subcateogry',
