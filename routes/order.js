@@ -14,6 +14,7 @@ import {
     deleteOrder,
     getSellerCustomers,
     getSellerOrders,
+    updateOrderStatus,
     updateOrderToDelivered,
 } from '../controllers/Order/seller.js';
 import { updateOrderPrice } from '../controllers/Order/useOrderCopon.js';
@@ -34,5 +35,6 @@ router.route('/:id/usecopon').put(protect, updateOrderPrice);
 router.route('/:id/pay').put(protect, updateOrderToPaid);
 router.route('/:id/payprofit').put(protect, admin, updateOrderToPaidProfit);
 router.route('/:id/deliver').put(protect, seller, updateOrderToDelivered);
+router.route('/:id/status').put(protect, seller, updateOrderStatus);
 
 export default router;
