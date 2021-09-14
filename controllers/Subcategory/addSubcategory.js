@@ -13,6 +13,7 @@ const addSubcategory = Async(async (req, res) => {
 		res.status(201).json({
 			success: true,
 			message: `${newSubcategory.name} has been created successfully`,
+			data: newSubcategory,
 		});
 	}
 });

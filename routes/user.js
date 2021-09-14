@@ -6,7 +6,6 @@ import {
     updateUser,
     sendEmail,
     getAllSellers,
-    payProfit,
 } from '../controllers/User/admin.js';
 import {
     facebookLogin,
@@ -63,7 +62,6 @@ router
     .get(protect, admin, getUserById)
     .put(protect, admin, updateUser)
     .delete(protect, admin, deleteUser);
-router.route('/:id/payprofit').post(protect, admin, payProfit);
 
 router.route('/sendEmail').post(protect, admin, sendEmail);
 router.route('/wishlist').post(protect, addToWishlist);

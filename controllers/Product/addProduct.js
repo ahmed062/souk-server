@@ -18,11 +18,13 @@ export const addProduct = Async(async (req, res) => {
 	await Product.create(req.body, (err, result) => {
 		if (err) console.log('err in add product', err);
 
-		res.json({
-			success: true,
-			message: `done!`,
-			product: result,
-		});
+		res.json(
+			result && {
+				success: true,
+				message: 'created :)',
+				data: result,
+			}
+		);
 
 		users.map((user) => {
 			sendAdEmail(user.email, user.firstName, req, result.name);

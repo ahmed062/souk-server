@@ -4,7 +4,7 @@ import Order from '../../models/Order.js';
 import { Product } from '../../models/Product.js';
 
 // comparing to arrays and get the common ones in a new array
-export const compare = (arr1, arr2) => {
+const compare = (arr1, arr2) => {
     const result = [];
     for (let i = 0; i < arr1.length; i++) {
         for (let j = 0; j < arr2.length; j++) {

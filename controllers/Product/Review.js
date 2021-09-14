@@ -1,17 +1,17 @@
-import { Product } from '../../models/Product.js';
+import { Product, Review } from '../../models/Product.js';
 import User from '../../models/User.js';
 import Async from 'express-async-handler';
-import { Review } from '../../models/Product.js';
 export const createProductReview = Async(async (req, res) => {
 	const { rating, comment } = req.body;
 	const { slug } = req.params;
 	const product = await Product.findOne({ slug }).populate('reviews');
 	const user = await User.findOne({ email: req.user.email });
 
-	if (product) {
-		const alreadyReviewed = await product.reviews.find(
-			(r) => (r.user = req.user.email)
-		);
+	if (product !== null) {
+		const alreadyReviewed = await Review.findOne({
+			user: req.user.email,
+			product: product._id,
+		});
 
 		if (!rating) {
 			return res.status(400).json({
@@ -26,7 +26,7 @@ export const createProductReview = Async(async (req, res) => {
 			});
 		}
 
-		if (alreadyReviewed) {
+		if (alreadyReviewed !== null) {
 			return res.status(400).json({
 				success: false,
 				err: 'you already reviewed it',
@@ -57,7 +57,7 @@ export const createProductReview = Async(async (req, res) => {
 
 export const getPenddingReviews = Async(async (req, res) => {
 	const reviews = await Review.find({ approve: false });
-	res.json({ success: true, data: reviews });
+	res.json({ success: true, data: reviews }).populate('product');
 });
 
 export const updateApproveOfReviews = Async(async (req, res) => {
@@ -66,12 +66,15 @@ export const updateApproveOfReviews = Async(async (req, res) => {
 		{
 			approve: req.body.approve,
 		},
-		(err) => {
+		(err, result) => {
 			if (err) return res.status(400).send(err);
-			res.json({
-				success: true,
-				message: 'the review has been approved',
-			});
+			res.json(
+				result && {
+					success: true,
+					message: 'approved :)',
+					data: result,
+				}
+			);
 		}
 	);
 });
