@@ -15,9 +15,14 @@ import category from './routes/category.js';
 import subcategory from './routes/subcategory.js';
 import product from './routes/product.js';
 import plan from './routes/plan.js';
+import dashboard from './routes/dashboard.js';
 
 import { errorHandler, notFound } from './middlewares/errorMiddleware.js';
 const app = express();
+app.get('/', (req, res) => {
+	res.send('Hello, world');
+});
+
 app.use(cors('*'));
 dotenv.config();
 
@@ -33,6 +38,7 @@ app.use(plan);
 app.use(category);
 app.use(subcategory);
 app.use(product);
+app.use(dashboard);
 
 app.use(errorHandler);
 app.use(notFound);

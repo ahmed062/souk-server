@@ -13,11 +13,18 @@ const editCategory = Async(async (req, res) => {
 		{ new: true, runValidators: true },
 		(err, result) => {
 			if (err) return res.status(400).send(err);
-			res.status(200).json({
-				success: true,
-				message: `updated`,
-				data: result,
-			});
+			res.status(200).json(
+				result != null
+					? {
+							success: true,
+							message: 'updated :)',
+							data: result,
+					  }
+					: {
+							success: false,
+							message: 'not updated :(',
+					  }
+			);
 		}
 	);
 });

@@ -11,12 +11,20 @@ const editSubcategory = Async(async (req, res) => {
 		{ slug: req.params.slug },
 		req.body,
 		{ new: true, runValidators: true },
-		(err) => {
+		(err, result) => {
 			if (err) return res.status(400).send(err);
-			res.status(200).json({
-				success: true,
-				message: `updated`,
-			});
+			res.status(200).json(
+				result != null
+					? {
+							success: true,
+							message: 'updated :)',
+							data: result,
+					  }
+					: {
+							success: false,
+							message: 'not updated :(',
+					  }
+			);
 		}
 	);
 });

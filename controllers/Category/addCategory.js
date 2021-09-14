@@ -13,7 +13,7 @@ const addCategory = Async(async (req, res) => {
 		res.status(201).json({
 			success: true,
 			message: `${newCategory.name} has been created successfully`,
-			data: category,
+			data: newCategory,
 		});
 	}
 });
