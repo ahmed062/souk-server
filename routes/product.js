@@ -40,8 +40,7 @@ router
     .delete(deleteProduct)
     .get(getProduct);
 
-router.route('/api/product/:id').get(protect, seller, getProductById);
-
+router.route('/api/product/single/:id').get(protect, seller, getProductById);
 router
     .route('/api/retrieve')
     .post(protect, addToRetrievedProducts)
