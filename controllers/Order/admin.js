@@ -73,7 +73,23 @@ export const getSellerProfit = asyncHandler(async (req, res) => {
 // GET /api/orders
 // Private/Admin
 export const getOrders = asyncHandler(async (req, res) => {
-    let orders = await Order.find({}).populate('user', 'id name');
+    let orders = await Order.find({})
+        .populate('user', 'id name')
+        .populate('orderItems.product');
 
     res.json(orders);
+});
+
+// DELETE api/orders/:id
+// private/admin
+export const deleteOrder = asyncHandler(async (req, res) => {
+    const order = await User.findById(req.params.id);
+
+    if (order) {
+        await order.remove();
+        res.json({ message: 'Order removed' });
+    } else {
+        res.status(404);
+        throw new Error('Order not found');
+    }
 });
