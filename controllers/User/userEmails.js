@@ -1,8 +1,10 @@
 import sgMail from '@sendgrid/mail';
+import fs from 'fs';
+import path from 'path';
+import dotenv from 'dotenv';
+dotenv.config();
 
-sgMail.setApiKey(
-    `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`
-);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendVerifyEmail = (email, name, verificationCode) => {
     sgMail
@@ -86,9 +88,39 @@ const sendSpecialEmail = (email, message) => {
         });
 };
 
+const sendExcelEmail = async (email, orderId) => {
+    const __dirname = path.resolve();
+    const pathToAttachment = `${__dirname}/excelFiles/order${orderId}.xlsx`;
+    const attachment = fs.readFileSync(pathToAttachment).toString('base64');
+    console.log(process.env.SENDGRID_API_KEY);
+    sgMail
+        .send({
+            to: email,
+            from: 'ashaban7642@gmail.com',
+            subject: 'New Oreder Is Added',
+            text: 'A new order has been added',
+            html: `<h3>A new order has been added</h3>`,
+            attachments: [
+                {
+                    content: attachment,
+                    filename: `order${orderId}.xlsx`,
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                    disposition: 'attachment',
+                },
+            ],
+        })
+        .then((res) => {
+            console.log(res, 'Email sent');
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+};
+
 export {
     sendVerifyEmail,
     sendResetPasswordEmail,
     sendAdEmail,
     sendSpecialEmail,
+    sendExcelEmail,
 };
