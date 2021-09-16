@@ -46,7 +46,7 @@ export const getOrderById = asyncHandler(async (req, res) => {
         'name email'
     );
 
-    sendExcelEmail('ashaban7642@gmail.com', order._id.toString());
+    // sendExcelEmail('ashaban7642@gmail.com', order._id.toString());
 
     if (order) {
         res.json(order);
