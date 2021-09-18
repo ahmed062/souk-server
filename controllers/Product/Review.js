@@ -1,6 +1,7 @@
 import { Product, Review } from '../../models/Product.js';
 import User from '../../models/User.js';
 import Async from 'express-async-handler';
+import Order from '../../models/Order.js';
 export const createProductReview = Async(async (req, res) => {
 	const { rating, comment } = req.body;
 	const { slug } = req.params;
@@ -23,6 +24,18 @@ export const createProductReview = Async(async (req, res) => {
 			return res.status(400).json({
 				success: false,
 				err: 'comment is required',
+			});
+		}
+
+		const order = await Order.findOne({
+			user: user._id,
+			'orderItems.product': product._id,
+		});
+
+		if (order == null || order.deliverStatus !== 'Delivered') {
+			return res.status(400).json({
+				access: false,
+				message: 'please buy the product',
 			});
 		}
 

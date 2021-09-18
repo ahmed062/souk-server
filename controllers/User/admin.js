@@ -5,7 +5,7 @@ import { sendSpecialEmail } from './userEmails.js';
 // GET api/users/:id
 // private/admin
 export const getUserById = asyncHandler(async (req, res) => {
-    const user = await User.findById(req.params.id).select('-password');
+    const user = await User.findById(req.params.id).select('-password -avatar');
     if (user) {
         res.json(user);
     } else {
@@ -17,7 +17,7 @@ export const getUserById = asyncHandler(async (req, res) => {
 // GET api/users
 // private/admin
 export const getAllUsers = asyncHandler(async (req, res) => {
-    const users = await User.find({}).select('-password');
+    const users = await User.find({}).select('-password -avatar');
 
     res.json(users);
 });
@@ -25,7 +25,9 @@ export const getAllUsers = asyncHandler(async (req, res) => {
 // GET api/users/sellers
 // private/admin
 export const getAllSellers = asyncHandler(async (req, res) => {
-    const users = await User.find({ role: 'seller' }).select('-password');
+    const users = await User.find({ role: 'seller' }).select(
+        '-password -avatar'
+    );
 
     res.json(users);
 });
