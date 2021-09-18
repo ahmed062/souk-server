@@ -76,3 +76,50 @@ export const extraStatistics = async (req, res) => {
 		},
 	});
 };
+
+export const sellerExtraStatistics = async (req, res) => {
+	const products = await Product.find({ seller: req.user._id });
+	const orders = await Order.find({
+		'orderItems.product': products,
+	}).populate('orderItems.product');
+
+	let sellerOrders = orders.map((order) => order.orderItems);
+	sellerOrders = sellerOrders.pop(
+		(item) => products.indexOf(item.product) !== -1
+	);
+
+	const pendingOrders = orders.filter(
+		(order) => order.deliverStatus === 'Pending'
+	);
+	const deliveredOrders = orders.filter(
+		(order) => order.deliverStatus === 'Delivered'
+	);
+	const onGoingOrders = await orders.filter(
+		(order) => order.deliverStatus === 'On Going'
+	);
+
+	const returnedProducts = await RerievedProduct.find({
+		accept: true,
+		product: products,
+	});
+	const penddingReviews = await Review.find({
+		approve: false,
+		product: products,
+	});
+
+	const soldProducts = orders
+		.map((order) => order.orderItems.length)
+		.reduce((acc, item) => acc + item, 0);
+
+	res.json({
+		returnedProducts,
+		penddingReviews,
+		addedProducts: products.length,
+		orders: {
+			totalOrders: orders,
+			pendingOrders: pendingOrders.length,
+			deliveredOrders: deliveredOrders.length,
+			onGoingOrders: onGoingOrders.length,
+		},
+	});
+};
