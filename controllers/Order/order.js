@@ -95,6 +95,9 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id);
 
     if (order) {
+        if (order.isPaid) {
+            throw new Error('Order is already paid');
+        }
         order.isPaid = true;
         order.paidAt = Date.now();
         order.paymentResult = {
@@ -103,6 +106,27 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
             update_time: req.body.update_time,
             email_address: req.body.payer.email_address,
         };
+
+        // add the price to the moneyAfterProfit for the seller
+        let productSellers = [];
+
+        for (let i = 0; i < order.orderItems.length; i++) {
+            const product = await Product.findById(
+                order.orderItems[i].product
+            ).select('-images');
+            const seller = await User.findById(product.seller).select(
+                '-avatar'
+            );
+
+            seller.moneyAfterProfit += product.originalPrice;
+            await seller.save();
+            productSellers.push({
+                seller: seller,
+                price: product.originalPrice,
+            });
+        }
+
+        // decrease the qty of the products
         const { orderItems } = order;
         for (let i = 0; i < orderItems.length; i++) {
             let product = await Product.findOne({

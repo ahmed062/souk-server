@@ -45,22 +45,23 @@ export const getSellerOrders = asyncHandler(async (req, res) => {
     res.json(orders);
 });
 
+export const removeDuplicates = (inputArray) => {
+    const ids = [];
+    return inputArray.reduce((sum, element) => {
+        if (!ids.includes(element.toString())) {
+            sum.push(element);
+            ids.push(element.toString());
+        }
+        return sum;
+    }, []);
+};
+
 // GET /api/orders/sellercustomers
 // Private/seller
 export const getSellerCustomers = asyncHandler(async (req, res) => {
     const orders = await sellerOrders(req, res);
     const customers = orders.map((order) => order.user);
 
-    const removeDuplicates = (inputArray) => {
-        const ids = [];
-        return inputArray.reduce((sum, element) => {
-            if (!ids.includes(element.toString())) {
-                sum.push(element);
-                ids.push(element.toString());
-            }
-            return sum;
-        }, []);
-    };
     const uniqueCustomers = removeDuplicates(customers);
     const users = [];
     for (let i = 0; i < uniqueCustomers.length; i++) {

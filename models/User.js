@@ -47,7 +47,7 @@ const usersSchema = mongoose.Schema(
             type: Buffer,
         },
         plan: { type: mongoose.Schema.Types.ObjectId, ref: 'Plan' },
-        deposit: Number,
+        moneyAfterProfit: Number,
         wishlist: Array,
     },
     {

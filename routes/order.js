@@ -1,9 +1,5 @@
 import express from 'express';
-import {
-    getOrders,
-    getSellerProfit,
-    updateOrderToPaidProfit,
-} from '../controllers/Order/admin.js';
+import { getOrders, payProfit } from '../controllers/Order/admin.js';
 import {
     addOrderItems,
     createExcelSheet,
@@ -28,7 +24,7 @@ const router = express.Router();
 router.route('/').post(protect, addOrderItems).get(protect, seller, getOrders);
 router.route('/sellerorders').get(protect, seller, getSellerOrders);
 router.route('/sellercustomers').get(protect, seller, getSellerCustomers);
-router.route('/:id/sellerprofit').get(protect, admin, getSellerProfit);
+// router.route('/:id/sellerprofit').get(protect, admin, getSellerProfit);
 router.route('/myorders').get(protect, getMyOrders);
 router
     .route('/:id')
@@ -36,7 +32,8 @@ router
     .delete(protect, seller, deleteOrder);
 router.route('/:id/usecopon').put(protect, updateOrderPrice);
 router.route('/:id/pay').put(protect, updateOrderToPaid);
-router.route('/:id/payprofit').put(protect, admin, updateOrderToPaidProfit);
+router.route('/:id/payprofit').post(protect, admin, payProfit);
+// router.route('/:id/payprofit').put(protect, admin, updateOrderToPaidProfit);
 router.route('/:id/deliver').put(protect, seller, updateOrderToDelivered);
 router.route('/:id/status').put(protect, seller, updateOrderStatus);
 router.route('/:id/excelsheetcreate').post(protect, seller, createExcelSheet);
