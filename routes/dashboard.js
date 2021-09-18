@@ -1,7 +1,10 @@
 import express from 'express';
-import { statistics } from '../controllers/Dashboard/Dashboar.js';
+import {
+	statistics,
+	extraStatistics,
+} from '../controllers/Dashboard/Dashboar.js';
+import { admin, protect } from '../middlewares/authMiddleware.js';
 const router = express.Router();
-
-router.route('/api/statistics').get(statistics);
-
+router.route('/api/statistics').get(protect, admin, statistics);
+router.route('/api/extraStatistics').get(protect, admin, extraStatistics);
 export default router;

@@ -3,6 +3,7 @@ import slugify from 'slugify';
 const ObjectId = mongoose.Schema.Types.ObjectId;
 const reviewSchema = new mongoose.Schema(
 	{
+		name: String,
 		comment: String,
 		rating: Number,
 		user: {
