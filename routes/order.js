@@ -39,7 +39,7 @@ router.route('/:id/pay').put(protect, updateOrderToPaid);
 router.route('/:id/payprofit').put(protect, admin, updateOrderToPaidProfit);
 router.route('/:id/deliver').put(protect, seller, updateOrderToDelivered);
 router.route('/:id/status').put(protect, seller, updateOrderStatus);
-router.route('/:id/excelsheetcreate').post(protect, createExcelSheet);
-router.route('/:id/excelsheetsend').post(protect, sendExcelSheet);
+router.route('/:id/excelsheetcreate').post(protect, seller, createExcelSheet);
+router.route('/:id/excelsheetsend').post(protect, seller, sendExcelSheet);
 
 export default router;
