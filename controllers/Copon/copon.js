@@ -18,8 +18,6 @@ export const addCopon = asyncHandler(async (req, res) => {
 });
 
 export const editCopon = asyncHandler(async (req, res) => {
-	const { title, discount, expireDate, products } = req.body;
-
 	const copon = await Copon.findById(req.params.id);
 
 	if (copon) {
