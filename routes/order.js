@@ -6,8 +6,10 @@ import {
 } from '../controllers/Order/admin.js';
 import {
     addOrderItems,
+    createExcelSheet,
     getMyOrders,
     getOrderById,
+    sendExcelSheet,
     updateOrderToPaid,
 } from '../controllers/Order/order.js';
 import {
@@ -18,6 +20,7 @@ import {
     updateOrderToDelivered,
 } from '../controllers/Order/seller.js';
 import { updateOrderPrice } from '../controllers/Order/useOrderCopon.js';
+import { sendExcelEmail } from '../controllers/User/userEmails.js';
 import { protect, seller, admin } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
@@ -36,5 +39,7 @@ router.route('/:id/pay').put(protect, updateOrderToPaid);
 router.route('/:id/payprofit').put(protect, admin, updateOrderToPaidProfit);
 router.route('/:id/deliver').put(protect, seller, updateOrderToDelivered);
 router.route('/:id/status').put(protect, seller, updateOrderStatus);
+router.route('/:id/excelsheetcreate').post(protect, createExcelSheet);
+router.route('/:id/excelsheetsend').post(protect, sendExcelSheet);
 
 export default router;

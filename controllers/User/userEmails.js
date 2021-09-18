@@ -90,9 +90,9 @@ const sendSpecialEmail = (email, message) => {
 
 const sendExcelEmail = async (email, orderId) => {
     const __dirname = path.resolve();
-    const pathToAttachment = `${__dirname}/excelFiles/order${orderId}.xlsx`;
+    const pathToAttachment = `${__dirname}/excelFiles/order-${orderId}.xlsx`;
     const attachment = fs.readFileSync(pathToAttachment).toString('base64');
-    console.log(process.env.SENDGRID_API_KEY);
+
     sgMail
         .send({
             to: email,
@@ -103,14 +103,14 @@ const sendExcelEmail = async (email, orderId) => {
             attachments: [
                 {
                     content: attachment,
-                    filename: `order${orderId}.xlsx`,
+                    filename: `order-${orderId}.xlsx`,
                     type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                     disposition: 'attachment',
                 },
             ],
         })
         .then((res) => {
-            console.log(res, 'Email sent');
+            console.log('Email sent');
         })
         .catch((error) => {
             console.error(error);

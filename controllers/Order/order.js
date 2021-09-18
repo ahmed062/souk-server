@@ -46,28 +46,43 @@ export const getOrderById = asyncHandler(async (req, res) => {
         'name email'
     );
 
-    // sendExcelEmail('ashaban7642@gmail.com', order._id.toString());
-
     if (order) {
         res.json(order);
+        console.log(order._id.toString(11, 35));
     } else {
         res.status(404);
         throw new Error('Order not found');
     }
 });
 
-// GET /api/orders/:id/Excel
-// Private
-export const sentExcelSheet = asyncHandler(async (req, res) => {
+// POST /api/orders/:id/excelsheetcreate
+// Private/Seller
+export const createExcelSheet = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id).populate(
         'user',
         'name email'
     );
 
-    // convertJsonToExcel(order);
+    if (order) {
+        convertJsonToExcel(order);
+        res.json('created');
+    } else {
+        res.status(404);
+        throw new Error('Order not found');
+    }
+});
+
+// POST /api/orders/:id/excelsheetsend
+// Private/Seller
+export const sendExcelSheet = asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id).populate(
+        'user',
+        'name email'
+    );
 
     if (order) {
-        res.json(order);
+        sendExcelEmail(req.body.email, order._id);
+        res.json('sent');
     } else {
         res.status(404);
         throw new Error('Order not found');
