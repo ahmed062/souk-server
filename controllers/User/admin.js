@@ -69,6 +69,36 @@ export const deleteUser = asyncHandler(async (req, res) => {
     }
 });
 
+// PUT api/users/:id/ban
+// private/admin
+export const banUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+        user.ban = true;
+        await user.save();
+        res.json({ message: 'User baned' });
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+});
+
+// PUT api/users/:id/unban
+// private/admin
+export const unBanUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.params.id);
+
+    if (user) {
+        user.ban = false;
+        await user.save();
+        res.json({ message: 'User unbaned' });
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+});
+
 export const sendEmail = asyncHandler(async (req, res) => {
     const { email, message } = req.body;
     try {

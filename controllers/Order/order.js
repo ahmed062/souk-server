@@ -33,6 +33,8 @@ export const addOrderItems = asyncHandler(async (req, res) => {
         });
 
         const createdOrder = await order.save();
+        req.user.orderAmount += 1;
+        await req.user.save();
 
         res.status(201).json(createdOrder);
     }

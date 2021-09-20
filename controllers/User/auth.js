@@ -13,6 +13,10 @@ export const signup = asyncHandler(async (req, res) => {
         throw new Error('User already exists');
     }
 
+    if (userExists?.ban) {
+        throw new Error('This user is baned, you cannot signup with it');
+    }
+
     const user = await User.create({
         firstName,
         lastName,
@@ -96,6 +100,9 @@ export const login = asyncHandler(async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await user.comparePassword(password))) {
+        if (user.ban) {
+            throw new Error('This user is baned, you cannot login with it');
+        }
         res.status(200).json({
             _id: user._id,
             firstName: user.firstName,

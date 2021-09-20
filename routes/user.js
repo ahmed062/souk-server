@@ -6,6 +6,8 @@ import {
     updateUser,
     sendEmail,
     getAllSellers,
+    banUser,
+    unBanUser,
 } from '../controllers/User/admin.js';
 import {
     facebookLogin,
@@ -62,6 +64,9 @@ router
     .get(protect, admin, getUserById)
     .put(protect, admin, updateUser)
     .delete(protect, admin, deleteUser);
+
+router.route('/:id/ban').put(protect, admin, banUser);
+router.route('/:id/unban').put(protect, admin, unBanUser);
 
 router.route('/sendEmail').post(protect, admin, sendEmail);
 router.route('/wishlist').post(protect, addToWishlist);

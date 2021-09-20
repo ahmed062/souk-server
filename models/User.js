@@ -48,7 +48,12 @@ const usersSchema = mongoose.Schema(
         },
         plan: { type: mongoose.Schema.Types.ObjectId, ref: 'Plan' },
         moneyAfterProfit: Number,
+        orderAmount: { type: Number, default: 0 },
         wishlist: Array,
+        ban: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         timestamps: true,
