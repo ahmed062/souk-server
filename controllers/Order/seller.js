@@ -6,84 +6,84 @@ import { sellerOrders } from './order.js';
 // PUT /api/orders/:id/status
 // Private/Seller
 export const updateOrderStatus = asyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+	const order = await Order.findById(req.params.id);
 
-    if (order) {
-        order.deliverStatus = req.body.deliverStatus || order.deliverStatus;
+	if (order) {
+		order.deliverStatus = req.body.deliverStatus || order.deliverStatus;
 
-        const updatedOrder = await order.save();
+		const updatedOrder = await order.save();
 
-        res.json(updatedOrder);
-    } else {
-        res.status(404);
-        throw new Error('Order not found');
-    }
+		res.json(updatedOrder);
+	} else {
+		res.status(404);
+		throw new Error('Order not found');
+	}
 });
 
 // GET /api/orders/:id/deliver
 // Private/Seller
 export const updateOrderToDelivered = asyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+	const order = await Order.findById(req.params.id);
 
-    if (order) {
-        order.deliverStatus = 'Delivered';
-        order.deliveredAt = Date.now();
+	if (order) {
+		order.deliverStatus = 'Delivered';
+		order.deliveredAt = Date.now();
 
-        const updatedOrder = await order.save();
+		const updatedOrder = await order.save();
 
-        res.json(updatedOrder);
-    } else {
-        res.status(404);
-        throw new Error('Order not found');
-    }
+		res.json(updatedOrder);
+	} else {
+		res.status(404);
+		throw new Error('Order not found');
+	}
 });
 
 // GET /api/orders/sellerorders
 // Private/seller
 export const getSellerOrders = asyncHandler(async (req, res) => {
-    const orders = await sellerOrders(req, res);
-    res.json(orders);
+	const orders = await sellerOrders(req, res);
+	res.json(orders);
 });
 
 export const removeDuplicates = (inputArray) => {
-    const ids = [];
-    return inputArray.reduce((sum, element) => {
-        if (!ids.includes(element.toString())) {
-            sum.push(element);
-            ids.push(element.toString());
-        }
-        return sum;
-    }, []);
+	const ids = [];
+	return inputArray.reduce((sum, element) => {
+		if (!ids.includes(element.toString())) {
+			sum.push(element);
+			ids.push(element.toString());
+		}
+		return sum;
+	}, []);
 };
 
 // GET /api/orders/sellercustomers
 // Private/seller
 export const getSellerCustomers = asyncHandler(async (req, res) => {
-    const orders = await sellerOrders(req, res);
-    const customers = orders.map((order) => order.user);
+	const orders = await sellerOrders(req, res);
+	const customers = orders.map((order) => order.user);
 
-    const uniqueCustomers = removeDuplicates(customers);
-    const users = [];
-    for (let i = 0; i < uniqueCustomers.length; i++) {
-        let user = await User.findById(uniqueCustomers[i]).select(
-            '-avatar -password'
-        );
-        users.push(user);
-    }
+	const uniqueCustomers = removeDuplicates(customers);
+	const users = [];
+	for (let i = 0; i < uniqueCustomers.length; i++) {
+		let user = await User.findById(uniqueCustomers[i]).select(
+			'-avatar -password'
+		);
+		users.push(user);
+	}
 
-    res.json(users);
+	res.json(users);
 });
 
 // DELETE api/orders/:id
 // private/seller
 export const deleteOrder = asyncHandler(async (req, res) => {
-    const order = await Order.findById(req.params.id);
+	const order = await Order.findById(req.params.id);
 
-    if (order) {
-        await order.remove();
-        res.json({ message: 'Order removed' });
-    } else {
-        res.status(404);
-        throw new Error('Order not found');
-    }
+	if (order) {
+		await order.remove();
+		res.json({ message: 'Order removed' });
+	} else {
+		res.status(404);
+		throw new Error('Order not found');
+	}
 });
